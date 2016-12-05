@@ -5,15 +5,15 @@
 - Realize the importance of properly recording data.
 - Understand the basics of data types and structures for Python.
 - Master assigning values to variable names for manipulation.
-- Learn to import a data table into Python using `pandas` and summarize it.
+- Learn to import a data table into Python using `Pandas` and summarize it.
 - Learn to make basic plots of data using `matplotlib`.
 
 ## Starting in Excel
-Excel has long been the de facto data analysis tool for most people due to its easy-to-understand graphical user interface (GUI) and ability to manipulate and analyze tabular data. We'll begin with a dataset in Excel to forge a connection with most users before moving our data into Python. Begin by downloading the the [Excel dataset for Human chromosome 21]() and open it in Excel. This dataset includes several genomic measures for 20 equal-sized windows in Human chromosome 21: number of ambiguous bases, number of G or C bases, number of bases from exons, number of bases from simple repeats, and number of bases from complex repeats.
+Excel has long been the *de facto* data analysis tool for most people due to its easy-to-understand graphical user interface (GUI) and ability to manipulate and analyze tabular data. We'll begin with a dataset in Excel to forge a connection with most users before moving our data into Python. Begin by downloading the the [Excel dataset for Human chromosome 21]() and open it in Excel. This dataset includes several genomic measures for 20 equal-sized windows in Human chromosome 21: number of ambiguous bases, number of G or C bases, number of bases from exons, number of bases from simple repeats, and number of bases from complex repeats.
 
-One should be accustomed to viewing data in this format. A few pieces of data are quite conspicuous, as they are encoding in a manner that isn't consistent with the rest of the data. These issue highlight the fact that data is often messy and can be prone to error during collection or poorly currated. To combat this, one should take care when collecting and storing data, and should be wearly of data collected by others.
+One should be accustomed to viewing data in this format. A few pieces of data are quite conspicuous, as they are encoding in a manner that isn't consistent with the rest of the data. These issue highlight the fact that data is often messy and can be prone to error during collection or can be poorly currated. To combat this, one should take care when collecting and storing data, and should be wearly of data collected by others.
 
-Correct the following issues with the dataset (0-indexed row: column):
+Correct the following issues with the dataset (0-indexed row(s): column(s)):
 
 1. 0:1-2 - both headers are 'window', but should be 'window_start' and 'window_end'
 2. 2:5-7 - various encodings of missing data, standardize to 'NA'
@@ -22,7 +22,7 @@ Correct the following issues with the dataset (0-indexed row: column):
 5. 2,14:8 - spurious commment that should be deleted
 6. 22:3 - spurious comment that should be deleted
 
-One major shortcoming of Excel is that it stores data in a proprietary binary data format, which typically cannot be ready by other applications. Data analysis that leverages languages like Python relies on simple text files to encode data. Therefore, to move forward with Python, we need our data in this type of format. Excel allows text files to be saved of data files, so users should create an appropriate text file of their fixed dataset by clicking `File`, `Save As`, and selecting `Comma Separated Values (.csv)` under `Format` in the `Save As` box. This file should be saved as `human_chr21.csv` in a Desktop directory called `swc_dec2016`.
+One major shortcoming of Excel is that it stores data in a proprietary binary data format, which typically cannot be ready by other applications. Data analysis that leverages languages like Python relies on simple text files to encode data. Therefore, to move forward with Python, we need our data in this type of format. Excel allows us to save text files of our data, so users should create an appropriate text file of their fixed dataset by clicking `File`, `Save As`, and selecting `Comma Separated Values (.csv)` under `Format` in the `Save As` box. This file should be saved as `human_chr21.csv` in a Desktop directory called `swc_dec2016`.
 
 The choosen file and directory names highlight another best practice that should be following when analyzing data: do **not** place spaces in file names or directories, or anywhere in data files, as these characters can sometimes confuse data analysis software and lead to big headaches.
 
@@ -249,22 +249,30 @@ sequence of their items (i.e. the order in which key:value pairs were added to
 the dictionary). Because of this, the order in which items are returned from loops
 over dictionaries might appear random and can even change with time.
 
-## Working with Data in Pandas
+## Working with Data in `Pandas`
 A lot of powerful, general tools are built into languages like Python, but specialized tools built up from these basic units live in libraries that can be called upon when needed. In order to import our data into Python for analysis, we need to access, or `import` in Python lingo, a library called `Pandas`. We can do this by issuing the following in a code block:
 ```python
 import pandas
 ```
 
-`Pandas` is a library for manipulating dataframes. A dataframe is a 2-dimensional data structure that can store data of different types (including characters, integers, floating point values, factors and more) in columns. It is similar to a spreadsheet or an SQL table or the data.frame in R. A DataFrame always has an index (0-based). An index refers to the position of an element in the data structure.
+Another important thing to point out is that built-in Python functions and library functions have associated help pages, which give a description of the function and the options available to the user. You can view the general help page for `Pandas` by issuing the following command:
+```python
+help(pandas)
+```
+
+You'll see some general information about `Pandas`. This tool is really designed for providing help with individual functions, and as a beginner you will be using them a lot, so take a look at the help pages for the functions you call below as you work through the rest of this lesson.
+
+`Pandas` is a library for manipulating dataframes. A dataframe is a 2-dimensional data structure that can store data of different types (including characters, integers, floating point values, factors and more) in columns. It is similar to a spreadsheet or an SQL table or the data.frame in R. A dataframe always has an index (0-based). An index refers to the position of an element in the data structure.
 
 `Pandas` has useful functions (or commands) that can be used to import our plain text data file.
 ```python
+# read data in from our csv file
 human_chr21 = pandas.read_csv("human_chr21.csv")
 ```
 
 We've read this dataframe into a logical variable. We can print its contents by issuing the following command:
 ```python
-human_chr21
+print(human_chr21)
 ```
 
 Which gives us the following output:
@@ -314,6 +322,8 @@ Which gives us the following output:
 19           54193.0           937997.0  
 ```
 
+Notice that the 'NA' values we encoded in Excel have been changed to `NaN`, the standard value Python uses to encode missing data.
+
 We can also convince ourselves that our data is stored in a dataframe object.
 ```python
 type(human_chr21)
@@ -344,7 +354,7 @@ array(['chromosome', 'window_start', 'window_end', 'n_bases', 'gc_bases',
        'exon_bases', 'simple_rep_bases', 'complex_rep_bases'], dtype=object)
 ```
 
-Or the unique window start position in our dataset.
+Or the unique window start positions in our dataset.
 ```python
 pandas.unique(human_chr21['window_start'])
 # output
@@ -354,7 +364,7 @@ array([       0,  2335499,  4670998,  7006497,  9341996, 11677495,
        42038982, 44374481])
 ```
 
-Let's say we are interesting in summarizing the data in a particular column. We can issue the following to summarize how many GC bases are found in each window.
+Let's say we are interesting in summarizing the data in a particular column. We can issue the following to summarize how many G or C bases are found in each window.
 ```python
 human_chr21['gc_bases'].describe()
 # output
@@ -427,4 +437,45 @@ human_chr21['gc_bases']/window_size
 dtype: float64
 ```
 
-See if you can also do this as a single command and save it to an appropriate variable.
+See if you can also do this as a single command and save it to an appropriate variable, like `gc_content`.
+
+## Plotting Data using `matplotlib`
+
+Aside from performing operations on pieces of data, Python is also very useful for plotting the data or the results of analyses. The most common library used for plotting in Python is `matplotlib`, which is what we will use to make some plots of our data. Remember, in order to use non-built-in libraries, you must `import` them. We are going to work with a specific subset of the `matplotlib` library called `pyplot`.
+```python
+import matplotlib.pyplot as plt
+```
+
+Note how we imported `pyplot` as `plt`. This allows us to use the shorter string of characters when calling plotting functions and is similar to assigning the library to a variable for future use.
+
+When we started with our dataset, the first thing we did was summarize it to determine the mean, median, standard deviation, etc. We can visualize similar information using plots, like a boxplot. Let's create a boxplot of our `gc_content` data that we created in the above challenge.
+```python
+plt.boxplot(gc_content)
+```
+
+This creates a simple boxplot of our GC content. However, notice that the x-axis lacks much information about what the data are. By looking at the contents of `help(plt.boxplot)`, we determine that we can pass alist to `labels` to provide more content.
+```python
+plt.boxplot(gc_content, labels=["GC Content"])
+```
+
+We can also plot a histogram of the data to see the frequency of certain levels of GC content.
+```python
+plt.hist(gc_content)
+# or to create more bins
+plt.hist(gc_content, bins=20)
+```
+
+Those two plots provided a lot of information about one piece of data in our dataset. However, we are probably interested in visualizing the relationship between a couple pieces of data. For instance, it has been established that regions of genomes with more genes typically have higher GC content. We can see if that trend appears in our data.
+```
+# first we need to calculate the gene content per window
+gc_content = human_chr21['gc_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+# now we can plot, using 'o' to create a scatter plot of points
+plt.plot(gene_content, gc_content, 'o')
+```
+
+Generally, it does appear that GC content rises as gene content increases. However, you are probably noticing that this plot leaves a lot to be desired. Where are the axis labels and title? We can add those prett easily by adding the following lines and executing the code block.
+```python
+plt.xlabel('Gene Content')
+plt.ylabel('GC Content')
+plt.title('Are genes more GC rich?')
+```

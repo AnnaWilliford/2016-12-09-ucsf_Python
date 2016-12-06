@@ -22,7 +22,7 @@ Correct the following issues with the dataset (0-indexed row(s): column(s)):
 5. 2,14:8 - spurious commment that should be deleted
 6. 22:3 - spurious comment that should be deleted
 
-One major shortcoming of Excel is that it stores data in a proprietary binary data format, which typically cannot be ready by other applications. Data analysis that leverages languages like Python relies on simple text files to encode data. Therefore, to move forward with Python, we need our data in this type of format. Excel allows us to save text files of our data, so users should create an appropriate text file of their fixed dataset by clicking `File`, `Save As`, and selecting `Comma Separated Values (.csv)` under `Format` in the `Save As` box. This file should be saved as `human_chr21.csv` in a Desktop directory called `swc_dec2016`.
+One major shortcoming of Excel is that it stores data in a proprietary binary data format, which typically cannot be ready by other applications. Data analysis that leverages languages like Python relies on simple text files to encode data. Therefore, to move forward with Python, we need our data in this type of format. Excel allows us to save text files of our data, so users should create an appropriate text file of their fixed dataset by clicking `File`, `Save As`, and selecting `Tab Delimited Text (.txt)` under `Format` in the `Save As` box. This file should be saved as `human_chr21.txt` in a Desktop directory called `swc_dec2016`.
 
 The choosen file and directory names highlight another best practice that should be following when analyzing data: do **not** place spaces in file names or directories, or anywhere in data files, as these characters can sometimes confuse data analysis software and lead to big headaches.
 

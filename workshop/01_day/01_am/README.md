@@ -15,7 +15,7 @@ One should be accustomed to viewing data in this format. A few pieces of data ar
 
 Correct the following issues with the dataset (0-indexed row(s): column(s)):
 
-1. 0:1-2 - both headers are 'window', but should be 'window_start' and 'window_end'
+1. 0:1-2 - both headers are 'window', but should be 'win_start' and 'win_end'
 2. 2:5-7 - various encodings of missing data, standardize to 'NA'
 3. 9:3 - 0 (the number) encoded as O (the letter)
 4. 15:0 - should be 'chr1' instead of 'chr_1'

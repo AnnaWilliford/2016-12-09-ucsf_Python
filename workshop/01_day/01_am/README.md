@@ -15,14 +15,14 @@ One should be accustomed to viewing data in this format. A few pieces of data ar
 
 Correct the following issues with the dataset (0-indexed row(s): column(s)):
 
-1. 0:1-2 - both headers are 'window', but should be 'window_start' and 'window_end'
+1. 0:1-2 - both headers are 'window', but should be 'win_start' and 'win_end'
 2. 2:5-7 - various encodings of missing data, standardize to 'NA'
 3. 9:3 - 0 (the number) encoded as O (the letter)
 4. 15:0 - should be 'chr1' instead of 'chr_1'
 5. 2,14:8 - spurious commment that should be deleted
 6. 22:3 - spurious comment that should be deleted
 
-One major shortcoming of Excel is that it stores data in a proprietary binary data format, which typically cannot be ready by other applications. Data analysis that leverages languages like Python relies on simple text files to encode data. Therefore, to move forward with Python, we need our data in this type of format. Excel allows us to save text files of our data, so users should create an appropriate text file of their fixed dataset by clicking `File`, `Save As`, and selecting `Comma Separated Values (.csv)` under `Format` in the `Save As` box. This file should be saved as `human_chr21.csv` in a Desktop directory called `swc_dec2016`.
+One major shortcoming of Excel is that it stores data in a proprietary binary data format, which typically cannot be ready by other applications. Data analysis that leverages languages like Python relies on simple text files to encode data. Therefore, to move forward with Python, we need our data in this type of format. Excel allows us to save text files of our data, so users should create an appropriate text file of their fixed dataset by clicking `File`, `Save As`, and selecting `Tab Delimited Text (.txt)` under `Format` in the `Save As` box. This file should be saved as `human_chr21.txt` in a Desktop directory called `swc_dec2016`.
 
 The choosen file and directory names highlight another best practice that should be following when analyzing data: do **not** place spaces in file names or directories, or anywhere in data files, as these characters can sometimes confuse data analysis software and lead to big headaches.
 
@@ -277,7 +277,7 @@ print(human_chr21)
 
 Which gives us the following output:
 ```python
-   chromosome  window_start  window_end  n_bases  gc_bases  exon_bases  \
+   chromosome     win_start     win_end  n_bases  gc_bases  exon_bases  \
 0       chr21             0     2335499  2335499         0         NaN   
 1       chr21       2335499     4670998  2335499         0         NaN   
 2       chr21       4670998     7006497   889002    648702    253805.0   
@@ -336,8 +336,8 @@ Let's begin by summarizing the data a bit. It is always good to know what data t
 human_chr21.dtypes
 # output
 chromosome            object
-window_start           int64
-window_end             int64
+win_start              int64
+win_end                int64
 n_bases                int64
 gc_bases               int64
 exon_bases           float64
@@ -350,13 +350,13 @@ We can also look at what the column names are.
 ```python
 human_chr21.columns.values
 # output
-array(['chromosome', 'window_start', 'window_end', 'n_bases', 'gc_bases',
+array(['chromosome', 'win_start', 'win_end', 'n_bases', 'gc_bases',
        'exon_bases', 'simple_rep_bases', 'complex_rep_bases'], dtype=object)
 ```
 
 Or the unique window start positions in our dataset.
 ```python
-pandas.unique(human_chr21['window_start'])
+pandas.unique(human_chr21['win_start'])
 # output
 array([       0,  2335499,  4670998,  7006497,  9341996, 11677495,
        14012994, 16348493, 18683992, 21019491, 23354990, 25690489,
@@ -382,7 +382,7 @@ Name: gc_bases, dtype: float64
 Finally, it is also possible to perform arithmetic on one or more columns of the dataset.
 ```python
 # let's translate the window start from bp to Mbp.
-human_chr21['window_start']/1000000
+human_chr21['win_start']/1000000
 # output
 0      0.000000
 1      2.335499
@@ -411,7 +411,7 @@ Name: window_start, dtype: float64
 Right now all values are reported as the number of bases that meet a condition. Translate each of these values to a proportion out of the total window size.
 ```python
 # calculate the window size
-window_size = human_chr21['window_end']-human_chr21['window_start']
+window_size = human_chr21['win_end']-human_chr21['win_start']
 human_chr21['gc_bases']/window_size
 # output
 0     0.000000
@@ -451,6 +451,8 @@ Note how we imported `pyplot` as `plt`. This allows us to use the shorter string
 When we started with our dataset, the first thing we did was summarize it to determine the mean, median, standard deviation, etc. We can visualize similar information using plots, like a boxplot. Let's create a boxplot of our `gc_content` data that we created in the above challenge.
 ```python
 plt.boxplot(gc_content)
+# you'll probably need to also show the plot each time you make a new one, so it appears for you to see
+plt.show()
 ```
 
 This creates a simple boxplot of our GC content. However, notice that the x-axis lacks much information about what the data are. By looking at the contents of `help(plt.boxplot)`, we determine that we can pass alist to `labels` to provide more content.
@@ -468,7 +470,7 @@ plt.hist(gc_content, bins=20)
 Those two plots provided a lot of information about one piece of data in our dataset. However, we are probably interested in visualizing the relationship between a couple pieces of data. For instance, it has been established that regions of genomes with more genes typically have higher GC content. We can see if that trend appears in our data.
 ```
 # first we need to calculate the gene content per window
-gc_content = human_chr21['gc_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+gene_content = human_chr21['exon_bases']/(human_chr21['win_end']-human_chr21['win_start'])
 # now we can plot, using 'o' to create a scatter plot of points
 plt.plot(gene_content, gc_content, 'o')
 ```
@@ -478,6 +480,16 @@ Generally, it does appear that GC content rises as gene content increases. Howev
 plt.xlabel('Gene Content')
 plt.ylabel('GC Content')
 plt.title('Are genes more GC rich?')
+```
+
+It is always good to view a plot, but typically you will want to export the image to a file. Python makes that really easy.
+```python
+# Python automatically interprets file extension to create proper file type
+# can vary extension to get desired format
+# here it is as a PNG file
+plt.savefig('gene_vs_gc.png')
+# can also pass explicitely as argument
+plt.savefig('gene_vs_gc.png', format='png')
 ```
 
 ## Building a Python Script
@@ -494,10 +506,10 @@ import matplotlib.pyplot as plt
 human_chr21 = pd.read_csv("human_chr21.csv")
 
 # calculate GC content per window
-gc_content = human_chr21['gc_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+gc_content = human_chr21['gc_bases']/(human_chr21['win_end']-human_chr21['win_start'])
 
 # calculate complex repeat content per window
-repeat_content = gc_content = human_chr21['complex_rep_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+repeat_content = human_chr21['complex_rep_bases']/(human_chr21['win_end']-human_chr21['win_start'])
 
 # plot the results, saving to appropriate file
 plt.plot(repeat_content, gc_content, 'o')
@@ -520,28 +532,30 @@ import sys
 
 We call the data files or other information we pass to Python scripts 'arguments'. These arguments are passed automatically to a list, in the order they are received, and by subsetting our list properly we can insert the proper information in the proper location in our script. We can pass any number of arguments using `sys`, as follows:
 ```python
-# first argument (remember Python numbering begins at 0)
-sys.argv[0]
-# second argument
+# first argument
 sys.argv[1]
+# second argument
+sys.argv[2]
+# why didn't we start at 0?
+# the 0 argument is the script name
 ```
 
 Therefore, if we want to pass our data file to our Python script as the first argument, we must make a change to the portion of the script where the data is read.
 ```python
 # pass the file name to the Pandas input command
 # note we don't need the quotes because our variable is a string of the file name
-human_chr21 = pd.read_csv(sys.argv[0])
+human_chr21 = pd.read_csv(sys.argv[1])
 # or we may prefer to store our agument as an appropriate variable 
 # and then pass to the command
-input_file = sys.argv[0]
+input_file = sys.argv[1]
 human_chr21 = pd.read_csv(input_file)
 ```
 
 We should also probably build flexibility into the output plot file name as well, so we aren't continually overwriting previous plots.
 ```python
 # join input file name with ".png"
-# pass tuple to "".join()
-plt.savefig(''.join((sys.argv[0],'.png')
+# pass list to "".join()
+plt.savefig(''.join([sys.argv[1],'.png'])
 ```
 
 There, now we have an operational script where we can use any chromosome file like `human_chr21.txt` as input to create a plot.

@@ -473,9 +473,80 @@ gc_content = human_chr21['gc_bases']/(human_chr21['window_end']-human_chr21['win
 plt.plot(gene_content, gc_content, 'o')
 ```
 
-Generally, it does appear that GC content rises as gene content increases. However, you are probably noticing that this plot leaves a lot to be desired. Where are the axis labels and title? We can add those prett easily by adding the following lines and executing the code block.
+Generally, it does appear that GC content rises as gene content increases. However, you are probably noticing that this plot leaves a lot to be desired. Where are the axis labels and title? We can add those pretty easily by adding the following lines and executing the code block.
 ```python
 plt.xlabel('Gene Content')
 plt.ylabel('GC Content')
 plt.title('Are genes more GC rich?')
 ```
+
+## Building a Python Script
+What we have done so far has demonstrated the utility of Python for interactive data analysis. However, Python can also be used for more passive, automated work by creating what is called a `script`. Scripts are a series of Python commands that are executed on one or more files. Let's learn how to make our first script.
+
+### Challenge
+We'll begin by laying out the series of commands that are going to analyze our dataset of interest. First, save the current Jupyter notebook and open a new one, like before. You can name this one `gc_repeat_plot`. As the name implies, this is a script that reads in the dataset we're working with, calculates the proportion of complex repeat content and GC content per window, and then plots the relationship between these two variables, saving the plot to an appropriately named PNG file. Given what we've covered so far, you should be able to construct this series of commands. You can also use the `help()` function to see other plotting options available to customize your plot. You can also test commands as you go and make sure that this works as planned. It is also good practice to use comments (`#`) to describe what your code is doing.
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# read data in from our csv file
+human_chr21 = pd.read_csv("human_chr21.csv")
+
+# calculate GC content per window
+gc_content = human_chr21['gc_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+
+# calculate complex repeat content per window
+repeat_content = gc_content = human_chr21['complex_rep_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+
+# plot the results, saving to appropriate file
+plt.plot(repeat_content, gc_content, 'o')
+plt.xlabel('Proportion Repeat Content')
+plt.ylabel('Proportion GC Content')
+plt.title('Are repetitive regions more GC-rich?')
+
+# save result to .png image file
+plt.savefig('repeats_vs_gc.png')
+```
+
+And now you have your first data analysis script. You can run all cells by clicking on `Run All` under the `Cells` menu, and you'll see them all execute properly.
+
+By now, maybe you are noticing the downside to this script: it isn't very flexible. We've restricted it to working only on one data file in one way. There are ways we can build in more flexibility, such that we can specify any appropriately-formated dataset to analyze. Then we can run our script from the command line, specifying the proper input(s), and automate our work. Let's show you how to do this.
+
+The key to solving this problem is passing a file to Python for analysis. The Python library that is used to read file names, or any other input information, is called `sys`, which is short for system. As with other libraries, we first have to import the library.
+```python
+import sys
+```
+
+We call the data files or other information we pass to Python scripts 'arguments'. These arguments are passed automatically to a list, in the order they are received, and by subsetting our list properly we can insert the proper information in the proper location in our script. We can pass any number of arguments using `sys`, as follows:
+```python
+# first argument (remember Python numbering begins at 0)
+sys.argv[0]
+# second argument
+sys.argv[1]
+```
+
+Therefore, if we want to pass our data file to our Python script as the first argument, we must make a change to the portion of the script where the data is read.
+```python
+# pass the file name to the Pandas input command
+# note we don't need the quotes because our variable is a string of the file name
+human_chr21 = pd.read_csv(sys.argv[0])
+# or we may prefer to store our agument as an appropriate variable 
+# and then pass to the command
+input_file = sys.argv[0]
+human_chr21 = pd.read_csv(input_file)
+```
+
+We should also probably build flexibility into the output plot file name as well, so we aren't continually overwriting previous plots.
+```python
+# join input file name with ".png"
+# pass tuple to "".join()
+plt.savefig(''.join((sys.argv[0],'.png')
+```
+
+There, now we have an operational script where we can use any chromosome file like `human_chr21.txt` as input to create a plot.
+
+You should save your Jupyter notebook with this script. However, you may have already noticed that this notebook isn't plain text, and therefore we wouldn't be able to run our script in the command line. We should export a plain text version of our python script by clicking `File`, `Download As`, and `Python (.py)`. This will initiate a download from your browser called `gc_repeat_plot.py`, and you can open this in a text editor and see it is a plain text representation of what you coded. Store this in your `swc_dec2016` directory.
+
+### Challenge
+We've built a bit of flexibility into our script, but we could go further. Create a script that allows you to explicitely pass an output file name as an additional argument, rather than having it automatically created based on the input file name. If you are up to the challenge, you can also code in flexibility that allows you to specify which columns of the dataset to analyze, so the script will plot more than just the relationship between GC content and complex repeat element content.

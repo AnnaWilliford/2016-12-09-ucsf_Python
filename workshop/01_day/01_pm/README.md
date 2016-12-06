@@ -4,7 +4,7 @@
 2. Navigating Files and Directories
 3. Working with Files and Directories
   - Have students download and unzip a set of files for all human chromosomes (they have 21) - will be used later
-  - [Data](https://github.com/darencard/2016-12-09-ucsf_Python/blob/gh-pages/workshop/01_day/01_pm/human_window_stats_sab.zip)
+  - [Data](https://github.com/darencard/2016-12-09-ucsf_Python/blob/gh-pages/workshop/01_day/01_pm/human_window_stats_sab.zip?raw=true)
 4. *Break*
 5. Pipes and Filters
   - As in Nelle's pipeline, there will be some files that are messed up (different length), which will be obvious when they start sorting data by length

@@ -451,6 +451,8 @@ Note how we imported `pyplot` as `plt`. This allows us to use the shorter string
 When we started with our dataset, the first thing we did was summarize it to determine the mean, median, standard deviation, etc. We can visualize similar information using plots, like a boxplot. Let's create a boxplot of our `gc_content` data that we created in the above challenge.
 ```python
 plt.boxplot(gc_content)
+# you'll probably need to also show the plot each time you make a new one, so it appears for you to see
+plt.show()
 ```
 
 This creates a simple boxplot of our GC content. However, notice that the x-axis lacks much information about what the data are. By looking at the contents of `help(plt.boxplot)`, we determine that we can pass alist to `labels` to provide more content.
@@ -468,7 +470,7 @@ plt.hist(gc_content, bins=20)
 Those two plots provided a lot of information about one piece of data in our dataset. However, we are probably interested in visualizing the relationship between a couple pieces of data. For instance, it has been established that regions of genomes with more genes typically have higher GC content. We can see if that trend appears in our data.
 ```
 # first we need to calculate the gene content per window
-gc_content = human_chr21['gc_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+gene_content = human_chr21['exon_bases']/(human_chr21['win_end']-human_chr21['win_start'])
 # now we can plot, using 'o' to create a scatter plot of points
 plt.plot(gene_content, gc_content, 'o')
 ```
@@ -478,6 +480,16 @@ Generally, it does appear that GC content rises as gene content increases. Howev
 plt.xlabel('Gene Content')
 plt.ylabel('GC Content')
 plt.title('Are genes more GC rich?')
+```
+
+It is always good to view a plot, but typically you will want to export the image to a file. Python makes that really easy.
+```python
+# Python automatically interprets file extension to create proper file type
+# can vary extension to get desired format
+# here it is as a PNG file
+plt.savefig('gene_vs_gc.png')
+# can also pass explicitely as argument
+plt.savefig('gene_vs_gc.png', format='png')
 ```
 
 ## Building a Python Script
@@ -497,7 +509,7 @@ human_chr21 = pd.read_csv("human_chr21.csv")
 gc_content = human_chr21['gc_bases']/(human_chr21['win_end']-human_chr21['win_start'])
 
 # calculate complex repeat content per window
-repeat_content = gc_content = human_chr21['complex_rep_bases']/(human_chr21['win_end']-human_chr21['win_start'])
+repeat_content = human_chr21['complex_rep_bases']/(human_chr21['win_end']-human_chr21['win_start'])
 
 # plot the results, saving to appropriate file
 plt.plot(repeat_content, gc_content, 'o')
@@ -520,28 +532,30 @@ import sys
 
 We call the data files or other information we pass to Python scripts 'arguments'. These arguments are passed automatically to a list, in the order they are received, and by subsetting our list properly we can insert the proper information in the proper location in our script. We can pass any number of arguments using `sys`, as follows:
 ```python
-# first argument (remember Python numbering begins at 0)
-sys.argv[0]
-# second argument
+# first argument
 sys.argv[1]
+# second argument
+sys.argv[2]
+# why didn't we start at 0?
+# the 0 argument is the script name
 ```
 
 Therefore, if we want to pass our data file to our Python script as the first argument, we must make a change to the portion of the script where the data is read.
 ```python
 # pass the file name to the Pandas input command
 # note we don't need the quotes because our variable is a string of the file name
-human_chr21 = pd.read_csv(sys.argv[0])
+human_chr21 = pd.read_csv(sys.argv[1])
 # or we may prefer to store our agument as an appropriate variable 
 # and then pass to the command
-input_file = sys.argv[0]
+input_file = sys.argv[1]
 human_chr21 = pd.read_csv(input_file)
 ```
 
 We should also probably build flexibility into the output plot file name as well, so we aren't continually overwriting previous plots.
 ```python
 # join input file name with ".png"
-# pass tuple to "".join()
-plt.savefig(''.join((sys.argv[0],'.png')
+# pass list to "".join()
+plt.savefig(''.join([sys.argv[1],'.png'])
 ```
 
 There, now we have an operational script where we can use any chromosome file like `human_chr21.txt` as input to create a plot.

@@ -277,7 +277,7 @@ print(human_chr21)
 
 Which gives us the following output:
 ```python
-   chromosome  window_start  window_end  n_bases  gc_bases  exon_bases  \
+   chromosome     win_start     win_end  n_bases  gc_bases  exon_bases  \
 0       chr21             0     2335499  2335499         0         NaN   
 1       chr21       2335499     4670998  2335499         0         NaN   
 2       chr21       4670998     7006497   889002    648702    253805.0   
@@ -336,8 +336,8 @@ Let's begin by summarizing the data a bit. It is always good to know what data t
 human_chr21.dtypes
 # output
 chromosome            object
-window_start           int64
-window_end             int64
+win_start              int64
+win_end                int64
 n_bases                int64
 gc_bases               int64
 exon_bases           float64
@@ -350,13 +350,13 @@ We can also look at what the column names are.
 ```python
 human_chr21.columns.values
 # output
-array(['chromosome', 'window_start', 'window_end', 'n_bases', 'gc_bases',
+array(['chromosome', 'win_start', 'win_end', 'n_bases', 'gc_bases',
        'exon_bases', 'simple_rep_bases', 'complex_rep_bases'], dtype=object)
 ```
 
 Or the unique window start positions in our dataset.
 ```python
-pandas.unique(human_chr21['window_start'])
+pandas.unique(human_chr21['win_start'])
 # output
 array([       0,  2335499,  4670998,  7006497,  9341996, 11677495,
        14012994, 16348493, 18683992, 21019491, 23354990, 25690489,
@@ -382,7 +382,7 @@ Name: gc_bases, dtype: float64
 Finally, it is also possible to perform arithmetic on one or more columns of the dataset.
 ```python
 # let's translate the window start from bp to Mbp.
-human_chr21['window_start']/1000000
+human_chr21['win_start']/1000000
 # output
 0      0.000000
 1      2.335499
@@ -411,7 +411,7 @@ Name: window_start, dtype: float64
 Right now all values are reported as the number of bases that meet a condition. Translate each of these values to a proportion out of the total window size.
 ```python
 # calculate the window size
-window_size = human_chr21['window_end']-human_chr21['window_start']
+window_size = human_chr21['win_end']-human_chr21['win_start']
 human_chr21['gc_bases']/window_size
 # output
 0     0.000000
@@ -494,10 +494,10 @@ import matplotlib.pyplot as plt
 human_chr21 = pd.read_csv("human_chr21.csv")
 
 # calculate GC content per window
-gc_content = human_chr21['gc_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+gc_content = human_chr21['gc_bases']/(human_chr21['win_end']-human_chr21['win_start'])
 
 # calculate complex repeat content per window
-repeat_content = gc_content = human_chr21['complex_rep_bases']/(human_chr21['window_end']-human_chr21['window_start'])
+repeat_content = gc_content = human_chr21['complex_rep_bases']/(human_chr21['win_end']-human_chr21['win_start'])
 
 # plot the results, saving to appropriate file
 plt.plot(repeat_content, gc_content, 'o')

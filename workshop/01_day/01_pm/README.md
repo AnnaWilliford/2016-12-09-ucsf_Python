@@ -9,6 +9,11 @@
 5. Pipes and Filters
   - As in Nelle's pipeline, there will be some files that are messed up (different length), which will be obvious when they start sorting data by length
   - They'll need to fix these issues with the data before running their shell script
+  - Here are the problems to fix:
+    1. `human chr4.txt` should be `human_chr4.txt` for consistency
+    2. `human.chr16.txt` should be `human_chr16.txt` for consistency
+    3. `human_chr1.txt` contains data for chr1, chr10, and chr11 (but not in order). Demonstrates a common wild-card issue that people encounter. Need to use `sort` and `head`/`tail` to separate out. `human_chr10.txt` and `human_chr11.txt` files are fine, so can overwrite them or just delete proper lines in `human_chr1.txt`
+    4. `human_chrSex.txt` contains information about the `X` and `Y` chromosomes, but pasted side by side. Need to use `cut` to extract each into `human_chrX.txt` and `human_chrY.txt`, and delete the original.
 6. Loops
   - After introducting, will have students run their python script and produce a set of output plots comparing a couple stats for each chromosome file
 7. Shell Scripts

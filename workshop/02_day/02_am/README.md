@@ -75,13 +75,58 @@
         - The `reset` command is very powerful, but somewhat confusing. For a great explanation, see [Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)
 
 6. Ignoring things (5 minutes)
+    - Add things to the `.gitignore` file
+        - Specific files
+        - Wildcards
+        - Directories
+    - Try `git add` on ignored files -- doesn't work! 
+        - Can more safely do things like `git add .` (`.` refers to the current directory)
+    - `.gitignore` file itself is tracked by git, like any other
+        - If you want, you can ignore `.gitignore` itself -- this can be useful if you have computer-specific `.gitignore` files
 
+**BREAK**
 
 7. Remotes in GitHub (30 minutes)
+    - Set up a GitHub account
+    - Create a blank repository
+    - `git remote add origin <URL>`
+        - Test that it worked -- `git remote -v`
+        - More robust test -- `git remote show origin`
+        - `origin` is an arbitrary name for the remote -- you can call it whatever you want, but `origin` happens to be a very common name for your personal remote.
+        - You can create multiple remotes -- we will touch on this in the next section ("Collaborating")
+    - Upload changes to the repository -- `git push origin master`
+        - `master` is the name of the `branch` you are on. Branches are a more advanced git feature that is covered in a different SWC lesson. All you need to know is that, unless you create any new branches, the default branch is always called `master`
+    - Make a change online and commit it (via the GitHub web editor)
+    - Download the changes with `git pull origin master`
 
-8. Collaborating (25 minutes)
+8. Collaborating (35 minutes)
+    - NOTE: I am diverging from the SWC materials here. Rather than using a shared repository, I would like to do the slightly more advanced but ultimately more robust and common approach of linking up multiple repositories (`fork/pull-request`)
+    - Basic workflow
+    - Pair up users
+    - User 1:
+        - Create a blank repository (Repo 1)
+        - Clone (introduce `git clone`)
+        - Adds some files
+    - User 2:
+        - Fork repository
+        - Clone it
+        - Make some changes
+        - Push
+        - Open a Pull Request
+    - User 1:
+        - Accept the pull request
+        - Pull (to local)
+        - Make some changes
+        - Push
+    - User 2:
+        - Add User 1 as the `upstream` remote (or whatever, but `upstream` is common)
+        - Pull upstream
+        - Push to update origin 
+    - Time-permitting, switch roles and repeat (Repo 2)
 
 9. Conflicts (15 minutes)
-
-
-
+    - User 1 and User 2 both modify the same files from Repo 1 and Repo 2
+    - User 2 does a pull upstream
+    - Inspect the conflicts
+    - Resolve the conflicts by hand
+        - Mention more advanced and automated ways to do this -- see [Advanced Merging](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging)

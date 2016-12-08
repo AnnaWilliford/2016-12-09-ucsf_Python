@@ -42,6 +42,7 @@
     - Add and commit (`commit -m 'your message'`) first file
     - `git status` -- should show there are still many "untracked" files, but the script we added isn't one of them
     - `git log` -- shows history of changes
+        - Aside on paging (`less`) -- navigate with arrows, quit with `q`
     - Add some comments to the script
         - `git status` -- should show that the script has been changed
         - `git diff` -- shows exactly how you changed the file since the last commit
@@ -53,14 +54,28 @@
         - `--oneline`
         - `--graph`
         - `--decorate` -- show branches, HEAD, etc.
+        - `--patch/-p` -- show differences
     - Review the three locations
 
 **BREAK**
 
-5. Exploring history (25 minutes)
+5. Exploring the history and undoing things (25 minutes)
     - Review the three locations
+    - Referring to commits
+        - By commit ID -- full is annoying, but minimum unambiguous head will work
+        - By special name -- `HEAD`, `HEAD~1`, `HEAD~2`
+    - `diff` against different commits (implied against working directory)
+    - Create a change, then undo with `git checkout HEAD <file>` 
+        - Note that the changes you just made are ***lost*** -- they ***cannot be recovered*** 
+        - A particularly powerful and dangerous command is `git checkout -- .`, which will permanently undo all changes you've made since the last commit
+        - `checkout` also affects the staged area -- changes that are staged are _not safe_
+    - `checkout` an older change via `HEAD~n` or commit ID, then `git status` -- file will be staged
+        - `checkout` the entire project at an earlier stage with just `git checkout <ID>` -- note the `detached HEAD state`
+    - Un-stage files with `git reset <filename>` (blank indicates all).
+        - The `reset` command is very powerful, but somewhat confusing. For a great explanation, see [Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)
 
 6. Ignoring things (5 minutes)
+
 
 7. Remotes in GitHub (30 minutes)
 

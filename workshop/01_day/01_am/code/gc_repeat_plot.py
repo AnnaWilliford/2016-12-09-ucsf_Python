@@ -6,37 +6,39 @@
 # import library
 import pandas as pd
 import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
 import sys
 
 
 # In[3]:
 
 # read data from our txt file
-human_chr21 = pd.read_csv(sys.argv[1], sep='\t')
+chr_data = pd.read_csv(sys.argv[1], sep='\t')
 print(sys.argv[1])
-
-
-# In[13]:
-
-#help(str.join)
 
 
 # In[5]:
 
 # calculate GC content per window
-gc_content = human_chr21['gc_bases'] / (human_chr21['win_end'] - human_chr21['win_start'])
+chr_data['gc_content'] = chr_data['gc_bases'] / (chr_data['win_end'] - chr_data['win_start'])
 
 
 # In[6]:
 
 # calculate complex repeat content per window
-repeat_content = human_chr21['complex_rep_bases'] / (human_chr21['win_end'] - human_chr21['win_start'])
+chr_data['repeat_content'] = chr_data['complex_rep_bases'] / (chr_data['win_end'] - chr_data['win_start'])
+
+
+# In[ ]:
+
+lm = smf.ols(formula='gc_content ~ repeat_content', data=chr_data).fit()
 
 
 # In[9]:
 
 # plot the result, saving to appropriate file
-plt.plot(repeat_content, gc_content, 'o')
+plt.plot(chr_data['repeat_content'], chr_data['gc_content'], 'ok')
+plt.plot(chr_data['repeat_content'].dropna(), lm.fittedvalues, 'b')
 plt.xlabel('Proportion Repeat Content')
 plt.ylabel('Proportion GC Content')
 plt.title('Are repetitive regions GC rich?')

@@ -1,0 +1,26 @@
+good things:
+1. learned how to read data in python
+2. learning how to manipulate files efficiently
+3. learn how to write files
+4. a lot of new commands
+5. learned how to pipe
+6. green/red stickers
+7. good examples were given to demonstrate
+8. good cream cheese selection
+9. integrated more than one programs
+10. live updated Dropbox file when it worked
+11. terminal is good, use to run other things
+
+
+bad things
+1. knew general bash stuff already
+2. somewhat easy
+3. a bit slow
+4. panic at end and rush
+5. not enough exercises
+6. shell on windows sucks
+7. bash was confusing/fast
+8. distracting when lots of questions and help
+9. more room to move around, more planned breaks for help
+10. more water
+11. more breaks to do exercises

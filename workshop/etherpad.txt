@@ -1,0 +1,600 @@
+Welcome to Software Carpentry Etherpad!
+
+This pad is synchronized as you type, so that everyone viewing this page sees the same text. This allows you to collaborate seamlessly on documents.
+
+Use of this service is restricted to members of the Software Carpentry and Data Carpentry community; this is not for general purpose use (for that, try etherpad.wikimedia.org).
+
+Users are expected to follow our code of conduct: http://software-carpentry.org/conduct.html
+
+All content is publicly available under the Creative Commons Attribution License: https://creativecommons.org/licenses/by/4.0/
+
+Workshop webpage: https://darencard.github.io/2016-12-09-ucsf_Python/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Day 1
+
+Morning: Intro to Python
+
+Link to data:
+
+https://github.com/darencard/2016-12-09-ucsf_Python/blob/gh-pages/workshop/01_day/01_am/data/human_chr21_broken.xlsx?raw=true
+
+Link to Daren's commands:
+    http://nbviewer.jupyter.org/urls/dl.dropbox.com/s/fs67j4a4w4suole/day1_intro_python.ipynb
+    http://nbviewer.jupyter.org
+
+Have a non-Anaconda installation of Jupyter??? See following link:
+    https://github.com/jupyter/jupyter/issues/71
+
+Pycharm - python RDE. Nice environments to write python scripts (and execute?) Also Spyder? Check them out.
+
+Save from excel as a tab-delimited text file
+Can also use .csv (comma-delimited)
+
+use underscores to avoid spaces and confusion later on for file names and files
+
+Python notebooks
+
+anaconda includes python and a bunch of other packages 
+including jupyter notebook
+ To open jupyter notebook open a bash terminal and type jupyter notebook
+best to do this rather than open from applications because this will record the session
+ Jupyter notebook opens to home directory
+ from there navigate to desired working directory
+ start a new python notebook (choose python conda root, if you have a choice)
+ to save click on untitled and rename
+ akin to typing directly into a terminal but a little more GUI (Graphical user Interface)  
+ 
+ Python uses variables as in algebraic not random x=something
+ eg. text = "software Carpentry" 
+
+string variables = text
+integers=ordinal numbers
+float=decimals
+is this right?
+
+to run - opens a GUI:
+$jupyter notebook
+
+
+Code cells are interpreted by python as commands.
+
+Shift+Enter executes your command (for mac). Equals stores a variable.
+
+Types of variables: integers, floats, bool (true/false)
+Type $type(x) to find out what sort of variable it is
+
+2 ** 16 is 2^16
+
+
+~~Challenge~~
+Make variable a equal to 7
+Make variable b equal to 13
+Evaluate a * 4 + b and set as variable c
+print c
+
+type # everything that follows is read as a comment
+
+How to Store Values
+Lists: 
+Make a list by using square brackets. eg list = [a,b,c]
+The first element is called "0"th. x[0] prints the first element of the list. x[1] prints the second, etc
+Lists can be changed after they are created (unlike tuples). Order of elements is defined.
+
+Loops:
+    #loop over items
+$for num in numbers: 
+$        print(num)
+
+Appending:
+Add to a variable by following it with .append. Eg $numbers.append(4) adds 4 to the end of the list
+
+Help (function): for when you need help
+or google
+LMGTFY
+
+Objects and methods: different objects have different methods associated wtih them
+eg .append is a method
+
+Tuples
+Make a tuple by using parentheses
+e.g. a_tuple (1,2,3)
+differs from lists because it can store any type of variable in tuple not just numeric values
+use " " to encase items that are character, eg list=['a','b',c']
+can be created and destroyed, but cannot be modified once it has been created
+
+indexing starts at 0, i.e a(0) for first element of a
+
+
+~~Challenge~~
+1. Create list a_list = [1,2,3,4,5]
+2. Create tuple a_tuple = (1,2,3,4,5)
+3. What happens when you type a_tuple[2]=7?: Recieve an error report  Tuples cannot be changed.  They are immutable
+4. What happens when you type a_list[2]=7?: third element changes to 7. 
+
+Dictionaries
+# dictionary are surrounded {}
+e.g. translation = {"one" : 1, "two": 2} (can call dictionary whatever you want as long as following is encased in {}
+translation["one"]
+ corresponds two things to each other – not stored in any order – don’t use thisif you want it to stay in the order it starts out as
+
+
+~~Challenge~~
+1. Create a dictionary matching each nucleotide with its complement.
+2. Now evaluate what the complement of the 3rd nucleotide of the following sequencing is: ACTGCGTTTAC.
+
+
+1. Create a dictionary : dna_complement = {"A" : "T", "C" : "G", "G" : "C", "T" : "A"}
+2. element_three = 'ACTGCGTTTAC'[2]
+3 dna_complement[element_three]
+or shorter: dna_complement['ACTGCGTTTAC'[2]]
+
+cute loop:
+
+complement = {'A':'T', 'G':'C', 'C':'G', 'T':'A'}
+seq = 'ACTGCGTTTAC'
+rc_seq = ''
+for i in seq:
+    rc_seq = rc_seq + complement[i]
+print(rc_seq)
+
+#for i in seq: Python will define each element as i as it goes through the loop
+
+nuc = {"A" : "T", "T" : "A", "G" : "C", "C" : "G"}
+tuple_sequence = ("A","C","T","G","C","G","T","T","T","A","C")
+nuc[tuple_sequence[2]]
+
+for s in sequence:
+    print(nuc[s])
+    
+    trans_sequence = ""
+for s in sequence:
+    trans_sequence = trans_sequence + nuc[s]
+
+
+Native base has some commands 
+Imported libraries to get more functions and commands
+Pandas is useful for data frames analysis 
+use import command to import libraries
+tab completion to view all options.  e.g. pandas.read tab command
+
+Dataframe = tabular data: rows and columns with headers
+key for reading in data: 
+
+$table = pandas.read_csv("file.txt", sep="\t") # you need to specify that its tab delimited. then hit table, not print(table) - outputs it in a nice format.
+use .dtypes method to see what type you data columns are
+use the column's name in parentheses to print a new table of just that column, eg 
+$human_chr21['exon_bases']
+add .dropna() at the end to remove NaN
+
+To see the directory you are
+import os
+os.getcwd()
+And to change the directory
+os.chdir("directory to change")
+
+To view your variables:
+    import pprint
+    pprint.pprint(locals())
+
+.describe for descriptive statistics
+**python runs commands from left to right - eg file.dropna().describe() removes NaN and THEN does describe. 
+
+use .head() to print out the first 5 lines
+define a new column in the dataframe as, eg, $human_chr21['win_Start_mb'] = human_chr21['win_start']/1000000 
+
+Shell becomes more helpful as your datasets become larger. Can load small portions of a file into memory, analyze it, save, and then move on to the next chunk.
+
+Importing library for creating plots
+import matplotlib.pyplot as plt (using plt to save keystrokes)
+%matplotlib inline to keep from making plots in new windows
+
+command is plot.plottype (file['column'])
+e.g. plt.boxplot(human_chr21['gc_content'])
+types of plots (note x axis for plots is automatically the one defined first):
+    boxplot
+    hist
+    plot (scatterplot)
+   
+    human_chr21['gene_content'] = human_chr21['exon_bases'] / \
+(human_chr21['win_end'] - human_chr21['win_start'])
+plt.plot(human_chr21['gene_content'], human_chr21['gc_content'],'o')
+
+
+plt.plot(human_chr21["exon_bases"],human_chr21["gc_content"],"o")
+plt.xlabel("Exon Bases")
+plt.ylabel("GC Content")
+
+Script: series of commands in a text editor to run an analysis
+
+pseudo-code: steps in plain english of what the plan is for the actual code: what goal is
+
+
+Afternoon: Shell
+
+Checking our Python script from this morning.
+http://nbviewer.jupyter.org/urls/dl.dropbox.com/s/jmzay4hdew3kgyn/gc_gene_plot.ipynb
+
+To run something from JupyterNotebook as a script, dowload as a .py file
+
+Terminals are different programs that can all run different shells. The most common is BASH  - ie bourne again shell script.Allows for reproducibility of commands
+
+Commands in Terminal:
+    pwd - print working directory
+    /=root directory--cannot go back any further than that
+    ls=list 
+    ls -1 lists as a single column
+    ls  -l gives more info
+    ls -a
+    ls -h gives human readable output (especially when combined with -l)
+    ls -F shows trailing slash at ends of directory names
+    man  ls for macs then use up/down arrows
+    cd
+    . indicates directory you are currently in
+    .. directory above the one you are in currently in or parent directory
+    tab for filling in names
+    control l or type clear to clear terminal. clear doesn't clear everything just makes a screen sized space
+    type cd to take yourself home
+cat [filename] -- prints text of file in terminal
+less [filename] -- shows file in more easily scrollable format 
+q to quit
+
+python [filename.py] -- runs a python script
+
+
+    pressing tab twice will show you all possible directories to cd into 
+    (example: cd .. --moves you to the directory above the one you are in)
+    hitting up arrow repeats last command
+    If a file path starts with a backslash, the file path starts at the root directory
+    
+    from terminal: nano filename to make line edits to python code
+    one reason to use nano: you can edit data stored on a computing cluster without having to download the file to your computer and then upload it again
+    
+    sys.argv[n] -- allows you to enter a filename or variable in terminal that will be passed to python
+     #Usage: python gc_gene_plot_1.py myfile.txt
+#filename = "myfile"
+filename = sys.argv[1]
+print("You are analyzing file: " + filename) #you need a space before " or there won't be a gap between words
+
+cp [old_filename] [new_filename] --- cp copies file with old name as file with new name
+mv [old_filename] [new_filename] --- moves file to new name
+mkdir [directory_name] --- makes new directory
+
+Bash assumes that you are using strings - must explicitly tell it when you are using integers using special syntax. 
+
+Here is a link to the awesome data that we will be working with :)
+https://github.com/darencard/2016-12-09-ucsf_Python/raw/gh-pages/workshop/01_day/01_pm/data/human_window_stats_sab.zip
+
+script:
+
+# coding: utf-8
+
+# In[1]:
+
+import pandas
+import sys
+import matplotlib.pyplot as plt
+
+filename = sys.argv[1]
+
+human_chr21 = pandas.read_csv(filename, sep="\t")
+human_chr21["gc_content"] = human_chr21['gc_bases']/(human_chr21['win_end']-human_chr21['win_start'])
+human_chr21["gene_content"] = human_chr21['exon_bases']/(human_chr21['win_end']-human_chr21['win_start'])
+
+# %matplotlib inline
+plt.plot(human_chr21["gene_content"],human_chr21["gc_content"],"o")
+plt.xlabel("Exon Bases")
+plt.ylabel("GC Content")
+
+plt.savefig(filename + '.plot.png')
+
+
+# In[]
+
+change name of file: cp "file name" to new file name
+or mv old file name new file name
+mkdir makes a new directory in your current directory
+
+head [filename] -- prints first 10 lines
+head -n 5 [filename] -- prints first 5 lines
+tail -n 5 [filename] -- prints last 5 lines
+> redirects command 
+it is not good practice to redirect a file into itself
+|  pipe --- feeds output of one command into a new command
+
+wc returns number of lines, words, characters
+
+Globs
+* will match all files with whatever characteristic you indicate
+e,g, wc -l *.txt  reports length (# of rows) lof text filess
+sort -n --> sorts output of a command by number (eg. sort list produced by wc by number of lines)
+example of piped command - print a list of .txt files with size info, sorted by decreasing (-r) size. write to file.
+$wc -l *.txt | sort -n -r > newfile.txt
+? --> matches exactly one character 
+wc -l human_chr{?,??}.txt  --> displays number of lines in all files with one or two characters after "human_chr"
+
+
+cut -f column range file
+e.g. cut -f 1-8 human_chrSex.txt
+e.g. cut -f 9- human_chrSex.txt
+
+for file in human_chr*.txt
+> do 
+> echo $file
+> done
+
+; --> semicolon formally starts new line in bash without actually starting a new line 
+$ --> dollar sign designates a variable 
+
+#adds header to all data files which are now processed directory
+ for file in human_*.txt
+> do
+> cat header.txt > proessed/$file
+> cat $file >> processed/$file
+> done
+
+#alternative that concatenates both files
+cat header.txt human_chr1.txt
+
+history ---> spits outs last very many executed commancs
+!number --> reruns command with the given number
+
+defend against poor file name choice by always putting "$file" instead of not using the double quotes
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Day 2
+
+Morning: Git/GitHub
+
+Etherpad URL -- http://pad.software-carpentry.org/2016-12-09-UCSF_Python
+
+To make sure you have everything installed, in a terminal, run the following:
+git --version
+
+Script from yesterday:
+# Add header to chromosome gene data
+# Author: Alexey "bash man" Shiklomanov
+# Last modified: Fri Dec 9, 2016
+# For questions, contact <ashiklom@bu.edu>
+
+echo "Starting combining script"
+for file in "$@"
+do
+        # Cool trick from Michelle -- combine files
+        echo '$file'
+        echo "$file"
+        cat raw/header.txt "$file" > processed/$file
+done
+
+# echo "Switching into new directory"
+# cd processed
+
+# for input in *.txt
+#do
+#        echo "Analyzing $input ..."
+#        python gc_gene_plot.py $input
+#done
+#echo "Done!"
+
+Install git, to initialize using it, navigate to your directory of choice, and hit $git init
+You shouldn't need to use .git normally. Remove the .git directory to "uninstall" it.
+Type $git status to see what is tracked and untracked
+
+$git add [filename]   ---> can add one or several files and then commit them altogether
+$git commit -m 'First draf of combine.sh'
+$git log --> shows what you have done
+$git diff [filepath] -->shows you changes between staged version and current version
+$git diff --staged  ---> shows you changes between staged version and last committed version
+$git checkout HEAD combine.sh ---> reverts to HEAD version, which is most recently committed
+$git checkout HEAD~3 combine.sh --->reverst to three versions before the HEAD version
+
+After you make changes, must repeat both $git add and $git commit. Checkout moves thing in and out of the history in the git directory. The file that has been checked out is the one that is in your working directory. To get out of a detached head state, checkout the 'master' version. 
+$git checkout master
+
+messages in -m are stored in the .git history, nowhere else. If you delete .git, you delete messages, previous versions etc, but you retain the latest version
+
+Working Directory ---------> Index/Staging area --------------> Repository
+                          git add                                git commit
+<--------------------------------
+git checkout <ID> <filename>
+
+If you are on a Mac, your default text editor may be Vim, which is difficult to use without more practice. You can switch it to 'nano' using the following command:
+    git config --global core.editor "nano"
+    
+    
+    Set up a GitHub account at http://github.com
+    Set up a repository through GitHub or another repository
+    $git remote add origin [URL]
+    $git remote ----> shows associated remote repositories
+    $ git ls-tree -r master --name-only
+    $git push origin master
+    $git pull origin master
+    $git clone [URL]  ---> pull any public git repository into working directory
+
+
+
+
+
+
+
+
+    Git collaboration activity:
+        User 1:
+            1. Create a blank repository on GitHub 
+            2. Clone it to your computer using `git clone` <adrress of repository>
+            3. Add some files using `nano`, etc.
+            4. Push files up to repository using `git push origin master`
+        User 2:
+            1.# Forked repository
+
+git clone https://github.com/<user 2 name>/<repository name>
+cd <repository name>
+
+# Make some changes
+nano file.txt
+git add file.txt
+git commit -m ‘Change file.txt’
+git push origin master
+
+# In GitHub 
+Create a “New Pull Request"
+
+
+# For custom remote
+# Create a new remote:
+    git remote add my_collaborator URL::to/private/remote
+    git pull my_collaborator master
+    
+    
+    ~~~~~~~~ 
+    History log (10:25pm)
+      742  echo '' > ~/Dropbox/ucsf_tutorial/history
+  743  pwd
+  744  echo "Use bash to navigate to the directory where you stored your data and scripts from yesterday"
+  745  pwd
+  746  cd Projects/tutorials/
+  747  ls
+  748  cd ucsf-python/
+  749  ls
+  750  cd workshop/01_day/01_pm/data/human/
+  751  ls
+  752  pwd
+  753  ls
+  754  mkdir raw
+  755  mv *.txt raw
+  756  ls
+  757  nano combine.sh 
+  758  vim ~/.nanorc 
+  759  ls
+  760  nano combine.sh 
+  760  nano combine.sh 
+  761  ls
+  762  nano combine.sh 
+  763  bash combine.sh
+  764  nano combine.sh 
+  765  cd processed/
+  766  ls
+  767  ls -l -t
+  768  ls
+  769  cd ..
+  770  ls
+  771  pbcopy combine.sh
+  772  nvim combine.sh 
+  773  ls -l processed
+  774  git --version
+  775  git config --global user.name
+  776  git config --global user.email
+  777  git config --global
+  778  pwd
+  779  ls
+  780  git init
+  781  ls
+  782  ls -a
+  783  git status
+  784  git add combine.sh
+  785  git status
+  786  ls
+  787  git commit -m 'First draft of combine.sh'
+  788  ls
+  789  git log
+  790  git status
+  791  nano combine.sh
+  792  git status
+  793  git diff combine.sh
+  794  git status
+  795  git add combine.sh
+  796  git status
+  797  git commit -m 'Modify date and email in combine.sh'
+  798  git log
+  799  ls
+  800  git add processed/gc_gene_plot.py 
+  801  git commit -m 'Add python analysis script'
+  802  git log
+  803  ls
+  804  git status
+  805  nano processed/gc_gene_plot.py 
+  806  git diff processed/gc_gene_plot.py 
+  806  git diff processed/gc_gene_plot.py 
+  807  git add processed/gc_gene_plot.py 
+  808  git status
+  809  nano processed/gc_gene_plot.py 
+  810  git status
+  811  git diff processed/gc_gene_plot.py 
+  812  git diff --staged processed/gc_gene_plot.py 
+  813  git add processed/gc_gene_plot.py 
+  814  git status
+  815  git commit
+  816  git log
+  817  nano combine.sh
+  818  bash combine.sh 
+  819  git diff combine.sh 
+  820  git checkout HEAD combine.sh
+  821  nano combine.sh 
+  822  git log
+  823  git log --oneline
+  824  git log --oneline --decorate
+  825  git checkout HEAD~3 combine.sh
+  826  nano combine.sh
+  827  git status
+  828  git checkout HEAD combine.sh
+  829  nano combine.sh 
+  830  git config --global core.editor "nano"
+  831  git log --oneline
+  832  git checkout 8bca5a9 combine.sh
+  833  nano combine.sh 
+  834  git checkout HEAD combine.sh
+  835  nano test.txt
+  836  git status
+  837  git add test.txt
+  838  git commit -m 'Add an example text file'
+  839  git status
+  840  ls
+  841  git log --oneline
+  842  git checkout HEAD~1
+  843  ls
+  844  git checkout HEAD
+  845  ls
+  846  git status
+  847  git log --oneline
+  848  git log --all --oneline
+  849  git checkout 595faed
+  850  git log --oneline combine.sh
+  851  git status
+  852  git checkout
+  853  git status
+  854  git checkout master
+  855  git log -p
+  856  git status
+  857  nano .gitignore
+  858  git status
+  859  git log --all --decorate --oneline
+
+Afternoon: Advanced Python
+
+use conda to install ggplot package - $conda install -c conda-forge ggplot
+When installed, navigate to jupyter notebook
+
+
+Plotting
+Link to Python history: https://www.dropbox.com/s/qzb2dl7tl29s8bh/ggplot_plotting.py?dl=0
+
+ggplot for Python: http://ggplot.yhathq.com/
+
+chicken data: git clone https://github.com/darencard/chicken.git
+
+chicken analysis code link: https://www.dropbox.com/s/gyw36uf59zdc8hv/chicken_analysis.py?dl=0
+
+Functions - make a function:
+
+def parse_chr(s):
+    return s.split("-")[0]
+def parse_win(s):
+    return s.split("-")[1]
+
+Then apply this to whatever you like by calling the column, followed by .apply(function):
+$tidy_chix['statistic'].apply(parse_chr)
+
+Take an early look at the crazy function:
+http://nbviewer.jupyter.org/github/darencard/2016-12-09-ucsf_Python/blob/gh-pages/workshop/02_day/02_pm/02-pm_instructor-notes.ipynb
